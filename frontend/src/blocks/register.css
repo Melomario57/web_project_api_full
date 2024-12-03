@@ -1,0 +1,125 @@
+.register {
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  margin: 0 auto;
+  font-family: "Inter", Arial, sans-serif;
+  align-items: center;
+  padding-bottom: 4%;
+  display: flex;
+  color: white;
+  max-width: 880px;
+}
+.register__header-wrapper {
+  margin-top: 20px;
+  padding-bottom: 0;
+}
+
+.register__header-login {
+  font-family: Inter;
+  font-size: 18px;
+  color: #fff;
+  position: absolute;
+  position: absolute;
+  top: 60px;
+  right: 200px;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.register__form-input {
+  padding-bottom: 7px;
+  background-color: black;
+  font-size: 14px;
+  color: white;
+  border: none;
+  border-bottom: 2px solid #fff;
+  width: 100%;
+  width: 358px;
+  height: 50px;
+  margin-bottom: 30px;
+}
+.register__form-fieldset {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  gap: 20px;
+  padding: 0;
+}
+
+.register__form-input:focus {
+  outline: none;
+}
+
+.register__button {
+  margin-top: 60px;
+  width: 100%;
+  padding: 10px 0 10px 0;
+  margin-bottom: 15px;
+  width: 358px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.register__login {
+  margin: 0;
+  font-size: 14px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.register__title {
+  margin: 40px 0 40px 0;
+  font-size: 24px;
+}
+
+@media screen and (max-width: 880px) {
+  .reister__header {
+    width: 700px;
+  }
+  .register__header-login {
+    top: 50px;
+    right: 200px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .register__header {
+    width: 500px;
+  }
+  .register__header-login {
+    top: 50px;
+    right: 100px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .register__header-login {
+    top: 30px;
+    right: 100px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .register__header {
+    width: 318px;
+  }
+}
+@media screen and (max-width: 458px) {
+  .register__header-login {
+    right: 40px;
+    top: 25px;
+
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .register__form-input,
+  .register__button {
+    width: 260px;
+  }
+}

@@ -1,0 +1,168 @@
+.cards {
+  width: 880px;
+  margin: 0 auto;
+  padding-right: 8%;
+}
+
+.cards__item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cards__content {
+  display: flex;
+  list-style-type: none;
+  flex-wrap: wrap;
+  column-gap: 15px;
+  row-gap: 15px;
+  width: 100%;
+}
+
+.cards__image {
+  width: 282px;
+  height: 282px;
+  border-top-left-radius: 20px 20px;
+  border-top-right-radius: 20px 20px;
+}
+
+.cards__trash-button {
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  background-color: transparent;
+  border: 0;
+}
+
+.card__trash-button_hidden {
+  visibility: hidden;
+}
+
+.card__trash-button_visible {
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: transparent;
+  border: 0;
+  visibility: visible;
+}
+
+.cards__trash-button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.cards__hearth-button {
+  width: 21px;
+
+  padding-left: 5.5%;
+  margin-right: 21px;
+  margin-top: 4px;
+  background-image: url("../images/like.svg");
+  background-color: transparent;
+  border: none;
+  background-repeat: no-repeat;
+}
+.cards__hearth-button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.cards__hearth-counter {
+  padding-left: 6px;
+  color: #000;
+  display: flex;
+  position: absolute;
+  font-size: 14px;
+  right: 27px;
+  bottom: 7px;
+}
+
+.cards__hearth-button_active {
+  background-image: url("../images/Union.svg");
+  background-color: transparent;
+  transition: 0.3s;
+  background-repeat: no-repeat;
+  width: 21px;
+
+  margin-right: 21px;
+  margin-top: 4px;
+}
+
+.cards__image-info {
+  display: flex;
+  width: 282px;
+  height: 40px;
+  background-color: #fff;
+  padding-top: 6%;
+  padding-bottom: 3%;
+  justify-content: space-between;
+  margin: 0 auto;
+  border-bottom-left-radius: 20px 20px;
+  border-bottom-right-radius: 20px 20px;
+}
+
+.cards__image-text {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+@media screen and (max-width: 950px) and (min-width: 800px) {
+  .cards {
+    width: 650px;
+    padding-right: 1%;
+  }
+  .cards__content {
+    margin-top: 8.5%;
+  }
+}
+
+@media screen and (max-width: 799px) and (min-width: 723px) {
+  .cards {
+    width: 650px;
+    padding-right: 1%;
+  }
+  .cards__content {
+    margin-top: 8.5%;
+  }
+}
+
+@media screen and (max-width: 722px) and (min-width: 650px) {
+  .cards {
+    width: 650px;
+    padding-right: 0;
+  }
+  .cards__content {
+    margin-top: 8.5%;
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 649px) and (min-width: 300px) {
+  .cards {
+    width: 282px;
+    padding-right: 2%;
+  }
+  .cards__content {
+    display: flex;
+    list-style-type: none;
+    padding-left: 2%;
+    width: 100%;
+  }
+  .cards__hearth-counter {
+    right: 30px;
+  }
+}
+/* .cards__image-hearth:active {
+  background-color: black;
+} */
