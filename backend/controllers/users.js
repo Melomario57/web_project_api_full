@@ -1,4 +1,7 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -28,14 +31,35 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const { name, about, avatar, email, password } = req.body;
+
+  bcrypt.hash(password, 10).then((hash) => {
+    User.create({ name, about, avatar, email, password: hash })
+      .then((user) =>
+        res.status(201).json({ _id: user._id, email: user.email })
+      )
+      .catch((err) => res.status(400).send({ error: err.message }));
+  });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
     .then((user) => {
-      res.send(user);
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+        {
+          expiresIn: "7d",
+        }
+      );
+
+      res.send({ token });
     })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send({ message: "Invalid data" });
+    .catch((err) => {
+      // error de autenticación
+      res.status(401).send({ message: err.message });
     });
 };
 
