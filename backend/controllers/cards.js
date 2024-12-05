@@ -1,6 +1,6 @@
 const Card = require("../models/card");
 const NotFoundError = require("../errors/not-found-err");
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate("owner")
     .then((cards) => {
@@ -9,10 +9,7 @@ module.exports.getCards = (req, res) => {
       }
       res.send({ data: cards });
     })
-    .catch((err) => {
-      console.log("getCards Error:", err);
-      res.status(err.status).send({ error: err.message });
-    });
+    .catch(next);
 };
 
 module.exports.createCard = (req, res) => {

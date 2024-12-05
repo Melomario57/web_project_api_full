@@ -1,19 +1,20 @@
 const jwt = require("jsonwebtoken");
-const Unauthorized = require("../errors/unauthorized-err");
+require("dotenv").config();
+const { JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || authorization.startsWith("Bearer")) {
-    throw new Unauthorized("Authorization required");
+    return res.status(403).send({ message: "Authorization is required" });
   }
   const token = authorization.replace("Bearer", "");
   let playload;
 
   try {
-    playload = jwt.verify(token, "some-secret-key");
+    playload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    throw new Unauthorized("Authorization required");
+    return res.status(403).send({ message: "Authorization is required" });
   }
   req.user = playload;
   next();
