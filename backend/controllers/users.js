@@ -1,15 +1,14 @@
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const NotFoundError = require("../errors/not-found-err");
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => {
       if (!users) {
-        const error = new Error("Internal server error");
-        error.status = 500;
-        throw error;
+        throw new NotFoundError("User not found");
       }
       res.send({ data: users });
     })
@@ -30,11 +29,23 @@ module.exports.getUserById = (req, res) => {
     .catch((err) => res.status(500).send({ error: err.message }));
 };
 
+module.exports.getCurrentUser = (req, res) => {
+  User.findById(req.user._id).then((user) => {
+    res.json(user);
+  });
+};
+
 module.exports.createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
   bcrypt.hash(password, 10).then((hash) => {
-    User.create({ name, about, avatar, email, password: hash })
+    User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    })
       .then((user) =>
         res.status(201).json({ _id: user._id, email: user.email })
       )

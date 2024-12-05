@@ -1,13 +1,11 @@
 const Card = require("../models/card");
-
+const NotFoundError = require("../errors/not-found-err");
 module.exports.getCards = (req, res) => {
   Card.find({})
     .populate("owner")
     .then((cards) => {
       if (!cards) {
-        const error = new Error("No data");
-        error.status = 404;
-        throw error;
+        throw new NotFoundError("Card not found");
       }
       res.send({ data: cards });
     })
