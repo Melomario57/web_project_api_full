@@ -28,15 +28,13 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  User.findById(req.user._id).then((user) => {
+  User.findOne(req.user).then((user) => {
     res.json(user);
   });
 };
 
 module.exports.createUser = (req, res) => {
-  const {
-    name, about, avatar, email, password
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
@@ -46,7 +44,9 @@ module.exports.createUser = (req, res) => {
       email,
       password: hash,
     })
-      .then((user) => res.status(201).json({ _id: user._id, email: user.email }))
+      .then((user) =>
+        res.status(201).json({ _id: user._id, email: user.email })
+      )
       .catch((err) => res.status(400).send({ error: err.message }));
   });
 };
@@ -54,7 +54,7 @@ module.exports.createUser = (req, res) => {
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  return User.findUserByCredentials(email, password)
+  User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
@@ -67,7 +67,6 @@ module.exports.login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      // error de autenticación
       res.status(401).send({ message: err.message });
     });
 };

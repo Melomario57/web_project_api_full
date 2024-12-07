@@ -3,10 +3,17 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
+const validator = require("validator");
+
 app.use(bodyParser.json());
 const { celebrate, Joi, errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middleware/logger");
-const { login, createUser } = require("./controllers/users");
+const {
+  login,
+  createUser,
+  updateProfile,
+  updateAvatar,
+} = require("./controllers/users");
 const auth = require("./middleware/auth");
 const usersRoute = require("./routes/users");
 const cardsRoute = require("./routes/cards");
@@ -18,9 +25,22 @@ const { PORT = 3000 } = process.env;
 
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/aroundb");
+mongoose.connect("mongodb://localhost:27017/mariodb");
 
 app.use(requestLogger);
+
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("The server is going to fall down");
+  }, 0);
+});
+
+const validateURL = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.error("string.uri");
+};
 
 app.post(
   "/signin",
@@ -39,21 +59,36 @@ app.post(
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required().min(8),
+      name: Joi.string(),
+      about: Joi.string(),
+      avatar: Joi.string().required().custom(validateURL),
     }),
   }),
   createUser
 );
 
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
+app.patch(
+  "/users/me",
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string(),
+      about: Joi.string(),
+    }),
+  }),
+  updateProfile
+);
 
-Joi.string().required().custom(validateUrl);
+app.patch(
+  "/users/me/avatar",
+  celebrate({
+    body: Joi.object().keys({
+      avatar: Joi.string().required().custom(validateURL),
+    }),
+  }),
+  updateAvatar
+);
 
-app.use(auth);
+/* app.use(auth); */
 
 app.use("/", usersRoute);
 app.use("/", cardsRoute);
