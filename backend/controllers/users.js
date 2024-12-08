@@ -17,14 +17,16 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.user._id)
-    .orFail(() => {
-      const error = new Error("Cannot find user");
-      res.statusCode = 404;
-      throw error;
+  User.findById(req.params.id)
+    .then((user) => {
+      if (!user) {
+        const error = new Error("User not found");
+        error.statusCode = 404;
+        throw error;
+      }
+      res.json(user);
     })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ error: err.message }));
+    .catch((err) => res.status(400).send({ error: err.message }));
 };
 
 module.exports.getCurrentUser = (req, res) => {
@@ -34,8 +36,9 @@ module.exports.getCurrentUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar, email, password } = req.body;
-
+  const {
+    name, about, avatar, email, password
+  } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       name,
@@ -44,9 +47,7 @@ module.exports.createUser = (req, res) => {
       email,
       password: hash,
     })
-      .then((user) =>
-        res.status(201).json({ _id: user._id, email: user.email })
-      )
+      .then((user) => res.status(201).json({ _id: user._id, email: user.email }))
       .catch((err) => res.status(400).send({ error: err.message }));
   });
 };

@@ -4,6 +4,28 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 const validator = require("validator");
+const cors = require("cors");
+app.use(cors());
+app.options("*", cors());
+
+const allowedCors = ["localhost:3000"];
+
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+  const { method } = req;
+
+  if (allowedCors.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+  const requestHeaders = req.headers["access-control-request-headers"];
+  if (method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
+    res.header("Access-Control-Allow-Headers", requestHeaders);
+    return res.end();
+  }
+  next();
+});
 
 app.use(bodyParser.json());
 const { celebrate, Joi, errors } = require("celebrate");
