@@ -53,7 +53,7 @@ app.use(requestLogger);
 
 app.get("/crash-test", () => {
   setTimeout(() => {
-    throw new Error("The server is going to fall down");
+    throw new Error("The server is going to fall");
   }, 0);
 });
 
