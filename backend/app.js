@@ -81,9 +81,9 @@ app.post(
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required().min(8),
-      name: Joi.string(),
-      about: Joi.string(),
-      avatar: Joi.string().required().custom(validateURL),
+      name: Joi.string().optional(),
+      about: Joi.string().optional(),
+      avatar: Joi.string().optional(),
     }),
   }),
   createUser
@@ -93,8 +93,8 @@ app.patch(
   "/users/me",
   celebrate({
     body: Joi.object().keys({
-      name: Joi.string(),
-      about: Joi.string(),
+      name: Joi.string().min(2).max(30).required(),
+      about: Joi.string().min(2).max(100).required(),
     }),
   }),
   updateProfile

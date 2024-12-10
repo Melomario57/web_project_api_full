@@ -1,16 +1,28 @@
 # Tripleten web_project_api_full
 
+## Primera parte
+
 ## :astonished: De que trata?
 
-###
+### Este proyecto contendrá una gran variedad de nuevas funcionalidades orientadas a la validación, y protección de la solicitudes, tales como, crear un nuevo controlador(login), crear rutas para para el registro e inicio de sesión, agregar un middleware requiriendo la autorizacion del usuario para proteger las demás rutas, modificar el frontend para almacenar el token del respectivo usuario y proteger la contraseña mediante un hash.
 
 ## :interrobang: Que se aprendió en está etapa?
 
-1. ###
+1. ### Implementar el modulo validator en el esquema User.
+
+2. ### Probar más a fondo distintas solicitudes para ver como se registra el usuario y su inicio de sesión esta debidamente protegido.
+
+3. ### Programar una función para evitar que la constraseña del usuario sea devuelta desde la base de datos.
+
+4. ### Crear un middleware(auth), el cual evita que los usuarios que no esten registrados puedan acceder directamente a las demás rutas.
+
+5. ### Modificar la parte del frontend para que el token sea guardado en el almacenamiento local, y comprobar si existe.
+
+6. ### Como plus, cree un nuevo directorio(erros), que contiene mensajes de errores personalizados por mi, y los agregue algunos controladores.
 
 ## Imágenes de las nuevas implementaciones.
 
-<img src="/images/rules.png"  border="0"   />
+<!-- <img src="/images/rules.png"  border="0"   /> -->
 
 ---
 
@@ -26,11 +38,14 @@
 
 ## Imágenes de las nuevas implementaciones.
 
-<!-- <img src="/images/data.png"  border="0"   /> -->
-
+<img src="/images/signin.png"  border="0"   />
+<img src="/images/validatehash.png"  border="0"   />
 ---
 
 ## Tecnologías utilizadas:
 
-<!-- <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="Node" alt="Node" width="40" height="40"/>&nbsp;
-<img src="https://github.com/devicons/devicon/blob/master/icons/nodemon/nodemon-original.svg" title="Nodemon" alt="Nodemon" width="40" height="40"/>&nbsp; -->
+<img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="Node" alt="Node" width="40" height="40"/>&nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/googlecloud/googlecloud-original.svg" title="cloud" alt="cloud" width="40" height="40"/>&nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg" title="Express" alt="Express" width="40" height="40"/>&nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original.svg" title="MongoDB" alt="MongoDB" width="40" height="40"/>&nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original.svg" title="React" alt="React" width="40" height="40"/>&nbsp;

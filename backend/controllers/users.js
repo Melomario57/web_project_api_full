@@ -17,28 +17,39 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.params.userId)
+    .orFail(() => {
+      throw new NotFoundError("User not found");
+    })
     .then((user) => {
-      if (!user) {
-        const error = new Error("User not found");
-        error.statusCode = 404;
-        throw error;
-      }
       res.json(user);
     })
-    .catch((err) => res.status(400).send({ error: err.message }));
+    .catch((err) => {
+      const statusCode = err.statusCode || 500;
+      res
+        .status(statusCode)
+        .send({ message: "Error finding User", error: err.message });
+    });
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  User.findOne(req.user).then((user) => {
-    res.json(user);
-  });
+  User.findById(req.user._id)
+    .orFail(() => {
+      throw new NotFoundError("User not found");
+    })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      const statusCode = err.statusCode || 500;
+      res
+        .status(statusCode)
+        .send({ message: "Error finding User", error: err.message });
+    });
 };
 
 module.exports.createUser = (req, res) => {
-  const {
-    name, about, avatar, email, password
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       name,
@@ -47,7 +58,9 @@ module.exports.createUser = (req, res) => {
       email,
       password: hash,
     })
-      .then((user) => res.status(201).json({ _id: user._id, email: user.email }))
+      .then((user) =>
+        res.status(201).json({ _id: user._id, email: user.email })
+      )
       .catch((err) => res.status(400).send({ error: err.message }));
   });
 };
