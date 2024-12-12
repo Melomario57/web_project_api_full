@@ -8,7 +8,12 @@ const cors = require("cors");
 app.use(cors());
 app.options("*", cors());
 
-const allowedCors = ["localhost:3000"];
+const allowedCors = [
+  "localhost:3000",
+  backhack.chickenkiller.com,
+  www.backhack.chickenkiller.com,
+  api.backhack.chickenkiller.com,
+];
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
