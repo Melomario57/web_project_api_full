@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const NotFoundError = require("../errors/not-found-err");
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 require("dotenv").config();
 
@@ -17,7 +18,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params.userId)
+  User.findById({ _id: req.params.userId })
     .orFail(() => {
       throw new NotFoundError("User not found");
     })
@@ -33,13 +34,14 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  User.findById(req.user._id)
+  User.findOne({ email: req.body.email })
     .orFail(() => {
       throw new NotFoundError("User not found");
     })
     .then((user) => {
       res.json(user);
     })
+
     .catch((err) => {
       const statusCode = err.statusCode || 500;
       res
@@ -77,7 +79,6 @@ module.exports.login = (req, res) => {
           expiresIn: "7d",
         }
       );
-
       res.send({ token });
     })
     .catch((err) => {

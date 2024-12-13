@@ -9,13 +9,15 @@ module.exports = (req, res, next) => {
     return res.status(403).send({ message: "Authorization is required" });
   }
   const token = authorization.replace("Bearer", "");
-  let playload;
+  let payload;
 
   try {
-    playload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     return res.status(403).send({ message: "Authorization is required" });
   }
-  req.user = playload;
+
+  req.user = req.user || {};
+  req.user._id = payload._id;
   next();
 };
