@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "web_project_around_api_full",
-=======
-  "name": "web_project_api_full",
->>>>>>> 1c0c04ebb14f8ecec7af9ed484f68cf303cac103
   "private": true,
   "version": "0.0.0",
   "type": "module",
