@@ -16,30 +16,39 @@
 
 4. ### Crear un middleware(auth), el cual evita que los usuarios que no esten registrados puedan acceder directamente a las demás rutas.
 
-5. ### Modificar la parte del frontend para que el token sea guardado en el almacenamiento local, y comprobar si existe.
+5. ### Modificar la parte del frontend para que el token sea guardado en el almacenamiento local y comprobar si existe.
 
-6. ### Como plus, cree un nuevo directorio(erros), que contiene mensajes de errores personalizados por mi, y los agregue algunos controladores.
+6. ### Como plus, cree un nuevo directorio(erros), que contiene mensajes de errores personalizados y los agregue algunos controladores.
 
 ## Imágenes de las nuevas implementaciones.
 
 <!-- <img src="/images/rules.png"  border="0"   /> -->
-
+<img src="/images/signin.png"  border="0"   />
+<img src="/images/validatehash.png"  border="0"   />
+<img src="/images/webpage.png"  border="0"   />
 ---
 
 ## Segunda parte
 
 ## :astonished: De que trata?
 
-###
+### En esta parte se trabajará con otro tipo de validaciones más seguras, registrar errores, conectar el frontend con el backend, crear un sevidor en la nube y habilitar las solicitudes CORS.
 
 ## :question: Que se aprendió en está etapa?
 
-1. ###
+1. ### Validar los datos solicitados con el paquete celebrate y la biblioteca JOI.
+
+2. ## Instalar el paquete Winston para crear un sistema de registro de las solicitudes y sus respectivos errores.
+
+3. ## Crear un servidor con googlecloud junto a un nombre de dominio para desplegar el frontend y el backend.
+
+4. ## Instalar el paquete CORS para proteger que ningun sitio malicioso interactue con la página web.
 
 ## Imágenes de las nuevas implementaciones.
 
-<img src="/images/signin.png"  border="0"   />
-<img src="/images/validatehash.png"  border="0"   />
+<img src="/images/cors.png"  border="0"   />
+<img src="/images/domains.png"  border="0"   />
+<img src="/images/celebrate.png"  border="0"   />
 ---
 
 ## Link de mi página:
