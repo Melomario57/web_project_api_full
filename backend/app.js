@@ -1,31 +1,33 @@
 const express = require("express");
+
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
-const validator = require("validator");
 const cors = require("cors");
-app.use(cors());
-app.options("*", cors());
 
 const allowedCors = [
-  "localhost:3000",
-  "backhack.chickenkiller.com",
-  "www.backhack.chickenkiller.com",
-  "api.backhack.chickenkiller.com",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://backhack.chickenkiller.com",
+  "https://www.backhack.chickenkiller.com",
+  "https://api.backhack.chickenkiller.com",
 ];
+
+const corsOptions = { origin: allowedCors };
+
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
   const { method } = req;
-
+  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
   if (allowedCors.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
   }
-  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
-  const requestHeaders = req.headers["access-control-request-headers"];
   if (method === "OPTIONS") {
     res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
+    const requestHeaders = req.headers["access-control-request-headers"];
     res.header("Access-Control-Allow-Headers", requestHeaders);
     return res.end();
   }
@@ -35,12 +37,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 const { celebrate, Joi, errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middleware/logger");
-const {
-  login,
-  createUser,
-  updateProfile,
-  updateAvatar,
-} = require("./controllers/users");
+const { login, createUser } = require("./controllers/users");
 const auth = require("./middleware/auth");
 const usersRoute = require("./routes/users");
 const cardsRoute = require("./routes/cards");
@@ -61,13 +58,6 @@ app.get("/crash-test", () => {
     throw new Error("The server is going to fall");
   }, 0);
 });
-
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
 
 app.post(
   "/signin",
@@ -94,28 +84,7 @@ app.post(
   createUser
 );
 
-app.patch(
-  "/users/me",
-  celebrate({
-    body: Joi.object().keys({
-      name: Joi.string().min(2).max(30).required(),
-      about: Joi.string().min(2).max(100).required(),
-    }),
-  }),
-  updateProfile
-);
-
-app.patch(
-  "/users/me/avatar",
-  celebrate({
-    body: Joi.object().keys({
-      avatar: Joi.string().required().custom(validateURL),
-    }),
-  }),
-  updateAvatar
-);
-
-/* app.use(auth); */
+app.use(auth);
 
 app.use("/", usersRoute);
 app.use("/", cardsRoute);
@@ -132,7 +101,9 @@ app.listen(PORT, () => {
 });
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
+  console.log(err);
   res.status(statusCode).send({
+    err,
     message:
       statusCode === 500 ? "An internal server error has ocurred" : message,
   });

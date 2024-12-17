@@ -42,6 +42,6 @@ class Api {
 }
 
 const auth = new Api({
-  baseUrl: "https://se-register-api.en.tripleten-services.com/v1",
+  baseUrl: "https://api.backhack.chickenkiller.com",
 });
 export default auth;

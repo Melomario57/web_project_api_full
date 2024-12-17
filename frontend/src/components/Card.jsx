@@ -12,9 +12,7 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const isOwn = currentUser && card.owner._id === currentUser._id;
   const likesCounter = card.likes.length;
 
-  const isLiked = card.likes.some(
-    (i) => currentUser && i._id === currentUser._id
-  );
+  const isLiked = card.likes.some((i) => currentUser && i === currentUser._id);
   const cardLikeButtonClassName = `cards__hearth-button ${
     isLiked ? "cards__hearth-button_active" : ""
   }`;

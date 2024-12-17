@@ -52,7 +52,7 @@ function App() {
   }, []);
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     api
       .changeLikeStatus({ id: card._id, isLiked: !isLiked })
       .then((newCard) => {
@@ -187,7 +187,7 @@ function App() {
   }
 
   const checkUserInfo = () => {
-    auth.getUserInfo().then(({ data }) => {
+    auth.getUserInfo().then((data) => {
       if (data) {
         setEmail(data.email);
         setLoggedIn(true);
@@ -216,7 +216,7 @@ function App() {
   const onRegister = (email, password) => {
     return auth
       .register(email, password)
-      .then(({ data }) => {
+      .then((data) => {
         console.log("onRegister", data);
         if (data && data._id) {
           setIsRegistered(true);

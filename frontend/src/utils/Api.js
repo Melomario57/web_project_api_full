@@ -10,6 +10,11 @@ class Api {
       headers: { ...this.headers },
     };
 
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      options.headers["Authorization"] = `Bearer ${token}`;
+    }
+
     if (body) {
       options.headers["Content-Type"] = "application/json";
       options.body = JSON.stringify(body);
@@ -52,9 +57,9 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/web_es_10",
+  baseUrl: "https://api.backhack.chickenkiller.com",
   headers: {
-    authorization: "aef20d41-9cb3-4569-ba79-0c7f1acf4cae",
+    //  authorization: "aef20d41-9cb3-4569-ba79-0c7f1acf4cae",
   },
 });
 export default api;

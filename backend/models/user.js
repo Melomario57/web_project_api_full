@@ -3,8 +3,7 @@ const bcrypt = require("bcrypt");
 const isEmail = require("validator/lib/isEmail");
 const Unauthorized = require("../errors/unauthorized");
 
-const regexUser =
-  /(http:\/\/|https:\/\/)(www\.)*(\w+\._~:\/\?\/%#\[\]@!\$&'\(\)\*\+,;=)*\/*/gi;
+const regexUser = /(http:\/\/|https:\/\/)(www\.)*(\w+\._~:\/\?\/%#\[\]@!\$&'\(\)\*\+,;=)*\/*/gi;
 
 const userSchema = new mongoose.Schema({
   name: {

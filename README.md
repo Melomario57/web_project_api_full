@@ -26,6 +26,7 @@
 <img src="/images/signin.png"  border="0"   />
 <img src="/images/validatehash.png"  border="0"   />
 <img src="/images/webpage.png"  border="0"   />
+
 ---
 
 ## Segunda parte
@@ -49,6 +50,7 @@
 <img src="/images/cors.png"  border="0"   />
 <img src="/images/domains.png"  border="0"   />
 <img src="/images/celebrate.png"  border="0"   />
+
 ---
 
 ## Link de mi página:

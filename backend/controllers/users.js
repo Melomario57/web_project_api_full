@@ -2,9 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const NotFoundError = require("../errors/not-found-err");
-
-const { NODE_ENV, JWT_SECRET } = process.env;
 require("dotenv").config();
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -34,7 +33,7 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findById({ _id: req.user._id })
     .orFail(() => {
       throw new NotFoundError("User not found");
     })
@@ -72,6 +71,7 @@ module.exports.login = (req, res) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
+      console.log(NODE_ENV, JWT_SECRET);
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
@@ -86,17 +86,17 @@ module.exports.login = (req, res) => {
     });
 };
 
-module.exports.updateProfile = (req, res) => {
+module.exports.updateProfile = (req, res, next) => {
   const userId = req.user._id;
   const userData = req.body;
-  User.findByIdAndUpdate(userId, userData)
+  User.findByIdAndUpdate(userId, userData, { new: true })
     .orFail(() => {
       const error = new Error("Cannot update profile");
       error.statusCode = 400;
       throw error;
     })
-    .then(() => {
-      res.send({ message: "Profile updated" });
+    .then((user) => {
+      res.send(user);
     })
     .catch((err) => {
       console.log("Profile Error:", err);
@@ -104,15 +104,15 @@ module.exports.updateProfile = (req, res) => {
     });
 };
 
-module.exports.updateAvatar = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, req.body)
+module.exports.updateAvatar = (req, res, next) => {
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
     .orFail(() => {
       const error = new Error("Cannot update Avatar");
       error.statusCode = 400;
       return error;
     })
-    .then(() => {
-      res.send({ message: "Avatar updated" });
+    .then((user) => {
+      res.send(user);
     })
     .catch((err) => {
       console.log("Avatar Error:", err);
