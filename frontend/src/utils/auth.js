@@ -25,7 +25,6 @@ class Api {
       const json = await res.json();
       return Promise.reject(`Error: ${json.error}}`);
     });
-    //.catch((error) => console.error("Error:", error));
   }
 
   getUserInfo() {

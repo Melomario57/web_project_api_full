@@ -5,6 +5,15 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 
+const { celebrate, Joi, errors } = require("celebrate");
+const { requestLogger, errorLogger } = require("./middleware/logger");
+const { login, createUser } = require("./controllers/users");
+const auth = require("./middleware/auth");
+
+require("dotenv").config();
+
+app.use(express.static(path.join(__dirname, "/")));
+
 const cors = require("cors");
 
 app.use(cors());
@@ -15,25 +24,13 @@ const allowedCors = [
   "http://localhost:3000",
   "https://myweb.centralpto.com",
   "https://www.myweb.centralpto.com",
-  "https://api.myweb.centralpto.com",
 ];
 
 app.use(cors({ origin: allowedCors }));
 
-app.use(bodyParser.json());
-const { celebrate, Joi, errors } = require("celebrate");
-const { requestLogger, errorLogger } = require("./middleware/logger");
-const { login, createUser } = require("./controllers/users");
-const auth = require("./middleware/auth");
-const usersRoute = require("./routes/users");
-const cardsRoute = require("./routes/cards");
-require("dotenv").config();
-
-app.use(express.static(path.join(__dirname, "/")));
-
-const { PORT = 3000 } = process.env;
-
 app.use(express.json());
+
+app.use(bodyParser.json());
 
 mongoose.connect("mongodb://localhost:27017/mariodb");
 
@@ -44,6 +41,9 @@ app.get("/crash-test", () => {
     throw new Error("The server is going to fall");
   }, 0);
 });
+
+const usersRoute = require("./routes/users");
+const cardsRoute = require("./routes/cards");
 
 app.post(
   "/signin",
@@ -82,6 +82,9 @@ app.use(errors());
 app.use("", (req, res) => {
   res.status(404).send({ message: "The request url is invalid" });
 });
+
+const { PORT = 3000 } = process.env;
+
 app.listen(PORT, () => {
   console.log(`App is running on port: ${PORT}...`);
 });
