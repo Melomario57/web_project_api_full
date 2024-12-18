@@ -42,6 +42,6 @@ class Api {
 }
 
 const auth = new Api({
-  baseUrl: "https://api.backhack.chickenkiller.com",
+  baseUrl: "https://api.myweb.centralpto.com",
 });
 export default auth;

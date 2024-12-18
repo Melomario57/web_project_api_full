@@ -55,7 +55,7 @@
 
 ## Link de mi página:
 
-### https://backhack.chickenkiller.com/
+### myweb.centralpto.com
 
 ## Tecnologías utilizadas:
 

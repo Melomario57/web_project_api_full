@@ -4,35 +4,21 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
+
 const cors = require("cors");
+
+app.use(cors());
+app.options("*", cors());
 
 const allowedCors = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://backhack.chickenkiller.com",
-  "https://www.backhack.chickenkiller.com",
-  "https://api.backhack.chickenkiller.com",
+  "https://myweb.centralpto.com",
+  "https://www.myweb.centralpto.com",
+  "https://api.myweb.centralpto.com",
 ];
 
-const corsOptions = { origin: allowedCors };
-
-app.use(cors(corsOptions));
-
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
-  if (allowedCors.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-  if (method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
-    const requestHeaders = req.headers["access-control-request-headers"];
-    res.header("Access-Control-Allow-Headers", requestHeaders);
-    return res.end();
-  }
-  next();
-});
+app.use(cors({ origin: allowedCors }));
 
 app.use(bodyParser.json());
 const { celebrate, Joi, errors } = require("celebrate");

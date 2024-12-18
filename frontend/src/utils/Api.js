@@ -57,7 +57,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://api.backhack.chickenkiller.com",
+  baseUrl: "https://api.myweb.centralpto.com",
   headers: {
     //  authorization: "aef20d41-9cb3-4569-ba79-0c7f1acf4cae",
   },

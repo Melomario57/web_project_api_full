@@ -8,6 +8,7 @@ const {
   updateProfile,
   updateAvatar,
 } = require("../controllers/users");
+
 const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
     return value;

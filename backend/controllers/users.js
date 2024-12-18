@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const NotFoundError = require("../errors/not-found-err");
 require("dotenv").config();
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
@@ -50,7 +51,9 @@ module.exports.getCurrentUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password
+  } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       name,
@@ -59,9 +62,7 @@ module.exports.createUser = (req, res) => {
       email,
       password: hash,
     })
-      .then((user) =>
-        res.status(201).json({ _id: user._id, email: user.email })
-      )
+      .then((user) => res.status(201).json({ _id: user._id, email: user.email }))
       .catch((err) => res.status(400).send({ error: err.message }));
   });
 };
