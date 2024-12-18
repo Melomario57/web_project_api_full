@@ -55,7 +55,7 @@
 
 ## Link de mi página:
 
-### myweb.centralpto.com
+### https://myweb.centralpto.com
 
 ## Tecnologías utilizadas:
 
