@@ -245,58 +245,57 @@ function App() {
               </>
             }
           >
-            {true && (
-              <Route
-                path="/home"
-                element={
-                  <ProtectedRoute loggedIn={loggedIn}>
-                    <>
-                      <Main
-                        onEditAvatarClick={handleEditAvatarClick}
-                        onEditProfileClick={handleEditProfileClick}
-                        onAddPlaceClick={handleAddPlaceClick}
-                        onCardClick={handleCardClick}
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute loggedIn={loggedIn}>
+                  <>
+                    <Main
+                      onEditAvatarClick={handleEditAvatarClick}
+                      onEditProfileClick={handleEditProfileClick}
+                      onAddPlaceClick={handleAddPlaceClick}
+                      onCardClick={handleCardClick}
+                      onClose={closeAllPopups}
+                      selectedCard={selectedCard}
+                      cards={cards}
+                      onCardLike={handleCardLike}
+                      onCardDelete={handleDeleteCard}
+                    />
+                    {isEditProfilePopupOpen && (
+                      <EditProfilePopup
+                        isOpen={isEditProfilePopupOpen}
                         onClose={closeAllPopups}
-                        selectedCard={selectedCard}
-                        cards={cards}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleDeleteCard}
+                        onUpdateUser={handleUpdateUser}
                       />
-                      {isEditProfilePopupOpen && (
-                        <EditProfilePopup
-                          isOpen={isEditProfilePopupOpen}
-                          onClose={closeAllPopups}
-                          onUpdateUser={handleUpdateUser}
-                        />
-                      )}
-                      {isAddPlacePopupOpen && (
-                        <AddPlacePopup
-                          isOpen={isAddPlacePopupOpen}
-                          onClose={closeAllPopups}
-                          onAddPlaceSubmit={handleAddPlaceSubmit}
-                        />
-                      )}
-                      {isEditAvatarPopupOpen && (
-                        <EditAvatarPopup
-                          isOpen={isEditAvatarPopupOpen}
-                          onClose={closeAllPopups}
-                          onUpdateAvatar={handleUpdateAvatar}
-                        />
-                      )}
+                    )}
+                    {isAddPlacePopupOpen && (
+                      <AddPlacePopup
+                        isOpen={isAddPlacePopupOpen}
+                        onClose={closeAllPopups}
+                        onAddPlaceSubmit={handleAddPlaceSubmit}
+                      />
+                    )}
+                    {isEditAvatarPopupOpen && (
+                      <EditAvatarPopup
+                        isOpen={isEditAvatarPopupOpen}
+                        onClose={closeAllPopups}
+                        onUpdateAvatar={handleUpdateAvatar}
+                      />
+                    )}
 
-                      {isConfirmationPopupOpen && (
-                        <ConfirmationPopup
-                          isOpen={isConfirmationPopupOpen}
-                          onClose={closeAllPopups}
-                          onCardDelete={handleSubmitConfirmation}
-                          card={selectedCard}
-                        />
-                      )}
-                    </>
-                  </ProtectedRoute>
-                }
-              />
-            )}
+                    {isConfirmationPopupOpen && (
+                      <ConfirmationPopup
+                        isOpen={isConfirmationPopupOpen}
+                        onClose={closeAllPopups}
+                        onCardDelete={handleSubmitConfirmation}
+                        card={selectedCard}
+                      />
+                    )}
+                  </>
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="/login" element={<Login onLogin={onLogin} />} />
             <Route
               path="/register"
