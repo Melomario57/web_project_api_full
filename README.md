@@ -23,9 +23,7 @@
 ## Imágenes de las nuevas implementaciones.
 
 <!-- <img src="/images/rules.png"  border="0"   /> -->
-<img src="/images/signin.png"  border="0"   />
-<img src="/images/validatehash.png"  border="0"   />
-<img src="/images/webpage.png"  border="0"   />
+<img src="/images/Captura de pantalla 2024-12-20 174728.png"  border="0"   />
 
 ---
 
@@ -49,7 +47,7 @@
 
 <img src="/images/cors.png"  border="0"   />
 <img src="/images/domains.png"  border="0"   />
-<img src="/images/celebrate.png"  border="0"   />
+<img src="/images/Captura de pantalla 2024-12-20 174912.png"  border="0"   />
 
 ---
 
