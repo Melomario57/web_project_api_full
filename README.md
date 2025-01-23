@@ -51,6 +51,16 @@
 
 ---
 
+## :point_up: Nota importante
+
+### Google cloud se implemento temporalmente, ya que su uso gratuito esta limitado por 3 meses y solo fue para temas de aprendizaje.
+
+<img src="/images/cloud.png"  border="0"   />
+
+### Firebase de google fue implementado en el proyecto con el fin de que la página este publicada remotamente sin límite alguno (cambian los nombres de los subdominios)
+
+---
+
 ## Link de mi página:
 
 ### https://myweb.centralpto.com
@@ -61,4 +71,6 @@
 <img src="https://github.com/devicons/devicon/blob/master/icons/googlecloud/googlecloud-original.svg" title="cloud" alt="cloud" width="40" height="40"/>&nbsp;
 <img src="https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg" title="Express" alt="Express" width="40" height="40"/>&nbsp;
 <img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original.svg" title="MongoDB" alt="MongoDB" width="40" height="40"/>&nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-plain.svg" title="JAVASCRIPT" alt="JAVASCRIPT" width="40" height="40"/>&nbsp;
 <img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original.svg" title="React" alt="React" width="40" height="40"/>&nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/firebase/firebase-original.svg" title="Firebase" alt="Firebase" width="40" height="40"/>&nbsp;
