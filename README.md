@@ -57,8 +57,6 @@
 
 <img src="/images/cloud.png"  border="0"   />
 
-### Firebase de google fue implementado en el proyecto con el fin de que la página este publicada remotamente sin límite alguno (cambian los nombres de los subdominios)
-
 ---
 
 ## Link de mi página:
