@@ -57,6 +57,6 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://api.myweb.centralpto.com",
+  baseUrl: "http://localhost:3000",
 });
 export default api;

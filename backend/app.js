@@ -22,8 +22,7 @@ app.options("*", cors());
 const allowedCors = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://myweb.centralpto.com",
-  "https://www.myweb.centralpto.com",
+  // colocar dominios en produccion
 ];
 
 app.use(cors({ origin: allowedCors }));
@@ -53,7 +52,7 @@ app.post(
       password: Joi.string().required().min(8),
     }),
   }),
-  login
+  login,
 );
 
 app.post(
@@ -67,7 +66,7 @@ app.post(
       avatar: Joi.string().optional(),
     }),
   }),
-  createUser
+  createUser,
 );
 
 app.use(auth);

@@ -1,11 +1,10 @@
-import React from "react";
 import CloseIcon from "../images/Close.png";
 import registerGood from "../images/allowed.png";
 import registerError from "../images/notAllowed.png";
 
 export default function InfoToolTip({ open, isRegistered, handleClose }) {
   return (
-    <div className={`popup popup-register ${open ? "popup_opened" : ""}`}>
+    <div className={`popup popup_register ${open ? "popup_opened" : ""}`}>
       <div className="popup__overlay"></div>
 
       <div className="popup__wrapper-register">
@@ -15,11 +14,7 @@ export default function InfoToolTip({ open, isRegistered, handleClose }) {
           alt="status"
         />
 
-        <button
-          type="button"
-          className="popup__button-cross"
-          onClick={handleClose}
-        >
+        <button type="button" className="popup__button-cross" onClick={handleClose}>
           <img src={CloseIcon} alt="imagén de una cruz" />
         </button>
 
