@@ -7,6 +7,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 999;
 }
 .popup_register {
   width: 430px;
@@ -107,6 +108,7 @@
   font-size: 14px;
   font-weight: 500;
   color: black;
+  text-align: center;
 }
 @media screen and (max-width: 1280px) {
   .popup__container {
