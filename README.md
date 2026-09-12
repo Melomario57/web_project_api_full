@@ -1,4 +1,4 @@
-# 🌐 Around The US — Full Stack Web Application (MERN)
+# 🌐 PicGallery — Full Stack Web Application (MERN)
 
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
@@ -6,15 +6,16 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-Aplicación web interactiva _full stack_ que permite a los usuarios registrarse, iniciar sesión, compartir publicaciones con imágenes, dar "me gusta" y gestionar su información de perfil.
+Aplicación web interactiva _full stack_ que permite a los usuarios registrarse, iniciar sesión, compartir publicaciones con imágenes, interactuar dando "me gusta" y gestionar su información de perfil.
 
-Este proyecto integra un backend con arquitectura RESTful robusta, autenticación basada en tokens JWT, validación estricta de esquemas, registro estructurado de eventos (logging) y un cliente frontend reactivo desarrollado con React y Vite.
+El proyecto integra un backend con arquitectura RESTful robusta, autenticación basada en tokens JWT, validación estricta de esquemas, registro estructurado de eventos (logging) y un cliente reactivo desarrollado con React y empaquetado mediante Vite.
 
 ---
 
 ## 🔗 Demo en Producción
 
-- **Sitio Web:** [https://myweb.centralpto.com](https://myweb.centralpto.com)
+- **Sitio Web Oficial:** [https://picgallery.duckdns.org](https://picgallery.duckdns.org)
+- **Protocolo de Seguridad:** HTTPS / TLS (Certificado SSL emitido por Let's Encrypt / Certbot)
 
 ---
 
@@ -22,20 +23,20 @@ Este proyecto integra un backend con arquitectura RESTful robusta, autenticació
 
 ### 🔒 Autenticación y Seguridad
 
-- **Registro e Inicio de Sesión:** Manejo seguro de contraseñas mediante hashing con `bcryptjs`.
-- **Protección de Rutas:** Middleware de autorización con `JSON Web Tokens (JWT)`.
-- **Protección de Datos Sensibles:** Filtro en consultas de MongoDB para evitar la exposición de hashes de contraseñas.
-- **Seguridad de Red:** Configuración de `CORS` con listas blancas de orígenes permitidos.
+- **Registro e Inicio de Sesión:** Manejo seguro de contraseñas mediante hashing criptográfico con `bcryptjs`.
+- **Protección de Rutas:** Middleware de autorización mediante `JSON Web Tokens (JWT)`.
+- **Protección de Datos Sensibles:** Filtro explícito en consultas de MongoDB para prevenir la exposición de hashes de credenciales.
+- **Seguridad de Red:** Gestión de cabeceras `CORS` parametrizadas por entorno para restringir orígenes no autorizados.
 
 ### 🛡️ Validación y Manejo de Errores
 
-- **Validación de Solicitudes:** Integración de `celebrate` y `Joi` para validar payloads (`body`, `params`, `headers`) antes de alcanzar los controladores.
-- **Validación de Esquemas:** Integración de `validator` en esquemas de Mongoose.
-- **Manejo Centralizado de Errores:** Clases de error personalizadas (`BadRequestError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, etc.) con respuestas HTTP semánticas.
+- **Validación de Solicitudes:** Integración de `celebrate` y `Joi` para validar payloads entrantes (`body`, `params`, `headers`) antes de alcanzar los controladores.
+- **Validación de Esquemas:** Integración de `validator` en los modelos y esquemas de Mongoose.
+- **Manejo Centralizado de Errores:** Respuestas HTTP semánticas y middleware central para la captura de excepciones.
 
 ### 📊 Registro y Monitoreo (Logging)
 
-- **Auditoría de Tráfico:** Registro de solicitudes entrantes y excepciones no controladas mediante `Winston` almacenadas en archivos rotativos (`request.log` y `error.log`).
+- **Auditoría de Tráfico:** Registro sistemático de solicitudes entrantes y excepciones no controladas mediante `Winston` almacenadas en archivos rotativos (`request.log` y `error.log`).
 
 ---
 
@@ -67,14 +68,29 @@ Este proyecto integra un backend con arquitectura RESTful robusta, autenticació
 
 ---
 
-## ☁️ Infraestructura y Despliegue en la Nube
+## ☁️ Evolución de la Infraestructura y Despliegue en la Nube
 
 <p align="center">
   <img src="/images/cloud.png" alt="Arquitectura Cloud" width="70%" border="0" />
 </p>
 
-> **Nota sobre el entorno de despliegue:**  
-> Inicialmente, el proyecto fue desplegado en una instancia virtual de **Google Cloud Platform (GCP)** durante la etapa de pruebas y configuración de certificados SSL. Actualmente, la arquitectura de producción se migró a **Oracle Cloud Infrastructure (OCI)** en su modalidad _Always Free Tier_, garantizando disponibilidad continua del servidor backend con Node/Express y la base de datos MongoDB.
+El ciclo de vida del despliegue se estructuró en dos etapas cronológicas orientadas a optimizar costos, unificar el acceso y mejorar la entrega de recursos:
+
+### Fase 1: Despliegue Inicial en Google Cloud Platform (GCP)
+
+- **Arquitectura desacoplada:** Despliegue inicial de la API y el frontend en instancias independientes dentro del ecosistema de Google Cloud Platform.
+- **Separación de endpoints:** El consumo de servicios se realizaba mediante URLs separadas para el cliente y el servidor backend.
+- **Gestión de tráfico cruzado:** Configuración manual y detallada de políticas CORS para enlazar ambos servicios a través de la red de GCP.
+
+### Fase 2: Consolidación en Oracle Cloud Infrastructure (OCI) y Dominio Propio
+
+- **Migración a OCI (Always Free Tier):** Traslado de la infraestructura hacia una máquina virtual dedicada (Ubuntu VPS) en Oracle Cloud, garantizando alta disponibilidad sin costos recurrentes.
+- **Resolución de Dominio Dinámico:** Configuración y vinculación de las zonas DNS bajo el subdominio público `picgallery.duckdns.org` apuntando a la IP pública del servidor.
+- **Cifrado y Seguridad HTTPS:** Automatización del aprovisionamiento y renovación de certificados TLS/SSL con **Certbot (Let's Encrypt)**, forzando la redirección del tráfico HTTP (puerto 80) al canal cifrado HTTPS (puerto 443).
+- **Reverse Proxy con Nginx:** Configuración de Nginx como punto de entrada unificado bajo el mismo origen (_Same-Origin_):
+  - Entrega directa y de baja latencia para los archivos estáticos empaquetados de React (`dist/`).
+  - Redirección interna y transparente de rutas de la API REST (`/signin`, `/signup`, `/cards`, `/users`) hacia el servidor Node.js/Express en el puerto local `3000`.
+- **Gestión de Procesos y Persistencia:** Supervisión del runtime con **PM2** para reinicios automáticos ante fallas y servicio de base de datos **MongoDB** local gestionado por `systemd`.
 
 ---
 
@@ -91,21 +107,23 @@ Este proyecto integra un backend con arquitectura RESTful robusta, autenticació
   <img src="https://github.com/devicons/devicon/blob/master/icons/oracle/oracle-original.svg" title="Oracle Cloud" alt="OCI" width="45" height="45"/>
 </p>
 
-- **Frontend:** React 18, React Router v7, Vite, CSS3/BEM, Fetch API.
+- **Frontend:** React, React Router, Vite, CSS3 / BEM, Fetch API.
 - **Backend:** Node.js, Express.js, Mongoose ODM.
+- **Bases de Datos:** MongoDB (`mongosh`).
 - **Seguridad & Middleware:** JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `celebrate` (Joi), `validator`, `cors`.
-- **Logging:** `winston`, `express-winston`.
+- **Logging & Auditoría:** `winston`, `express-winston`.
+- **Servidor & DevOps:** Ubuntu Linux, Nginx (Reverse Proxy), PM2, Certbot (SSL/TLS), DuckDNS.
 
 ---
 
 ## 💻 Guía de Instalación y Ejecución Local
 
-Sigue estos pasos para ejecutar el proyecto completo en tu máquina local.
+Sigue estos pasos para ejecutar el proyecto en tu entorno local de desarrollo.
 
 ### 📋 Prerrequisitos
 
 - [Node.js](https://nodejs.org/) (versión 18 o superior recomendada)
-- [MongoDB](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017` o una URI de MongoDB Atlas.
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017` o una instancia en la nube (MongoDB Atlas).
 - [Git](https://git-scm.com/)
 
 ---
@@ -113,90 +131,85 @@ Sigue estos pasos para ejecutar el proyecto completo en tu máquina local.
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/Melomario57/web_project_api_full.git
+git clone [https://github.com/Melomario57/web_project_api_full.git](https://github.com/Melomario57/web_project_api_full.git)
 cd web_project_api_full
 ```
 
-### 2. Configurar y levantar el Backend
+## 2. Configurar y levantar el Backend
 
-#### Entrar a la carpeta backend
+Entrar a la carpeta backend e instalar dependencias:
 
 ```bash
 cd backend
-```
-
-#### Instalar dependencias
-
-```bash
 npm install
 ```
 
-#### Crear archivo de variables de entorno
-
-- **En Windows (Git Bash):** `touch .env`
-- **En CMD / PowerShell:** Crea manualmente un archivo llamado `.env`
-
-Configura tu archivo `backend/.env` con las siguientes variables:
+Crear archivo de variables de entorno. Crea un archivo llamado `.env` dentro de la carpeta `backend/`:
 
 ```env
 PORT=3000
 NODE_ENV=development
+MONGO_URI=mongodb://127.0.0.1:27017/mariodb
+ALLOWED_ORIGIN=http://localhost:5173
 JWT_SECRET=tu_clave_secreta_de_desarrollo
-MONGODB_URI=mongodb://localhost:27017/aroundb
 ```
 
-#### Iniciar el servidor de desarrollo
+Iniciar el servidor de desarrollo:
 
 ```bash
 npm run dev
-# El backend estará escuchando en http://localhost:3000
+# O mediante ejecución directa:
+# node app.js
 ```
+
+_El servidor backend quedará escuchando en `http://localhost:3000`._
 
 ---
 
-### 3. Configurar y levantar el Frontend
+## 3. Configurar y levantar el Frontend
 
-Abre una nueva terminal en la raíz del proyecto:
+Abre una nueva terminal en la raíz del proyecto.
 
-#### Entrar a la carpeta frontend e instalar dependencias
+Entrar a la carpeta frontend e instalar dependencias:
 
 ```bash
 cd frontend
 npm install
 ```
 
-_(Opcional)_ Si tu frontend requiere configurar la URL base de la API, crea un archivo `frontend/.env`:
+Crear archivo de variables de entorno. Crea un archivo llamado `.env` dentro de la carpeta `frontend/`:
 
 ```env
-VITE_API_URL=http://localhost:3000
+VITE_BASE_URL=http://localhost:3000
 ```
 
-#### Iniciar el servidor cliente
+Iniciar el servidor cliente:
 
 ```bash
 npm run dev
-# El frontend estará disponible en http://localhost:5173 (o el puerto asignado por Vite)
 ```
 
----
-
-### 📄 Scripts Disponibles
-
-#### Backend (`/backend`)
-
-- `npm run dev`: Inicia el servidor con recarga automática usando nodemon.
-- `npm start`: Inicia el servidor en modo producción.
-
-#### Frontend (`/frontend`)
-
-- `npm run dev`: Inicia el servidor de desarrollo de Vite.
-- `npm run build`: Compila los archivos optimizados para producción en la carpeta `/dist`.
-- `npm run preview`: Previsualiza la compilación localmente.
+_La aplicación estará disponible en el navegador en `http://localhost:5173`._
 
 ---
 
-### 👤 Autor
+## 📄 Scripts Disponibles
+
+### Backend (`/backend`)
+
+- `npm run dev`: Inicia el servidor con recarga automática ante cambios.
+- `npm start`: Inicia la aplicación en modo producción.
+
+### Frontend (`/frontend`)
+
+- `npm run dev`: Arranca el entorno local con HMR de Vite.
+- `npm run build`: Empaqueta y minifica el código para producción en la carpeta `/dist`.
+- `npm run preview`: Previsualiza localmente el build generado.
+
+---
+
+## 👤 Autor
 
 **Mario** — Desarrollador Web Full Stack
 
-- **GitHub:** [@Melomario57](https://github.com/Melomario57)
+- **GitHub:** [@Melomario57](https://github.com)
