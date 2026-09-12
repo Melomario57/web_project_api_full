@@ -12,6 +12,13 @@ const auth = require("./middleware/auth");
 
 require("dotenv").config();
 
+const {
+  PORT = 3000,
+  MONGO_URI = "mongodb://localhost:27017/mariodb",
+  NODE_ENV = "development",
+  ALLOWED_ORIGIN = "http://localhost:5173",
+} = process.env;
+
 app.use(express.static(path.join(__dirname, "/")));
 
 const cors = require("cors");
@@ -22,8 +29,8 @@ app.options("*", cors());
 const allowedCors = [
   "http://localhost:5173",
   "http://localhost:3000",
-  // colocar dominios en produccion
-];
+  ALLOWED_ORIGIN,
+].filter(Boolean);
 
 app.use(cors({ origin: allowedCors }));
 
@@ -31,7 +38,10 @@ app.use(express.json());
 
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost:27017/mariodb");
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log("Conectado a MongoDB:", MONGO_URI))
+  .catch((err) => console.error("Error al conectar a MongoDB:", err));
 
 app.use(requestLogger);
 
@@ -82,11 +92,10 @@ app.use("", (req, res) => {
   res.status(404).send({ message: "The request url is invalid" });
 });
 
-const { PORT = 3000 } = process.env;
-
 app.listen(PORT, () => {
-  console.log(`App is running on port: ${PORT}...`);
+  console.log(`App running on port: ${PORT} (${NODE_ENV} mode)...`);
 });
+
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   console.log(err);

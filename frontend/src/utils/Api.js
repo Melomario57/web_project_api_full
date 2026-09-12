@@ -56,7 +56,9 @@ class Api {
   }
 }
 
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
+
 const api = new Api({
-  baseUrl: "http://localhost:3000",
+  baseUrl: BASE_URL,
 });
 export default api;
