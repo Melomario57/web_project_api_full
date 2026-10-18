@@ -2,7 +2,12 @@ import CloseIcon from "../images/Close.png";
 import registerGood from "../images/allowed.png";
 import registerError from "../images/notAllowed.png";
 
-export default function InfoToolTip({ open, isRegistered, handleClose }) {
+export default function InfoToolTip({
+  open,
+  isRegistered,
+  handleClose,
+  message,
+}) {
   return (
     <div className={`popup popup_register ${open ? "popup_opened" : ""}`}>
       <div className="popup__overlay"></div>
@@ -21,7 +26,7 @@ export default function InfoToolTip({ open, isRegistered, handleClose }) {
         <p className="popup_register-title">
           {isRegistered
             ? "¡Correcto! Ya estás registrado."
-            : "Uy, algo salió mal. Por favor, inténtalo de nuevo."}
+            : message || "Uy, algo salió mal. Por favor, inténtalo de nuevo."}
         </p>
       </div>
     </div>

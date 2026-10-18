@@ -6,6 +6,10 @@ require("dotenv").config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
+if (NODE_ENV === "production" && !process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is required in production");
+}
+
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
@@ -51,9 +55,7 @@ module.exports.getCurrentUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const {
-    name, about, avatar, email, password
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       name,
@@ -62,7 +64,9 @@ module.exports.createUser = (req, res) => {
       email,
       password: hash,
     })
-      .then((user) => res.status(201).json({ _id: user._id, email: user.email }))
+      .then((user) =>
+        res.status(201).json({ _id: user._id, email: user.email }),
+      )
       .catch((err) => res.status(400).send({ error: err.message }));
   });
 };
@@ -73,13 +77,9 @@ module.exports.login = (req, res) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       console.log(NODE_ENV, JWT_SECRET);
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
-        {
-          expiresIn: "7d",
-        }
-      );
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET || "dev-secret", {
+        expiresIn: "7d",
+      });
       res.send({ token });
     })
     .catch((err) => {

@@ -22,8 +22,13 @@ class Api {
       if (res.ok) {
         return res.json();
       }
-      const json = await res.json();
-      return Promise.reject(`Error: ${json.error}}`);
+      const json = await res.json().catch(() => ({}));
+      const message =
+        json.validation?.body?.message ||
+        json.message ||
+        json.error ||
+        `Error ${res.status}`;
+      return Promise.reject(new Error(message));
     });
   }
 

@@ -33,6 +33,7 @@ function App() {
   const [open, setOpen] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
   const [email, setEmail] = useState("");
+  const [tooltipMessage, setTooltipMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -208,12 +209,22 @@ function App() {
       if (token) {
         localStorage.setItem("jwt", token);
         checkUserInfo();
-      } else {
       }
+    }).catch((error) => {
+      setTooltipMessage(error.message);
+      setIsRegistered(false);
+      setOpen(true);
     });
   };
 
   const onRegister = (email, password) => {
+    if (password.length < 8) {
+      setTooltipMessage("La contraseña debe tener al menos 8 caracteres.");
+      setIsRegistered(false);
+      setOpen(true);
+      return Promise.resolve();
+    }
+    setTooltipMessage("");
     return auth
       .register(email, password)
       .then((data) => {
@@ -226,9 +237,9 @@ function App() {
         setOpen(true);
       })
       .catch((error) => {
+        setTooltipMessage(error.message);
         setOpen(true);
         setIsRegistered(false);
-        console.log("error register", error);
       });
   };
   return (
@@ -306,6 +317,7 @@ function App() {
         <InfoToolTip
           open={open}
           isRegistered={isRegistered}
+          message={tooltipMessage}
           handleClose={handleClose}
         />
       </div>
