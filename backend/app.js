@@ -1,11 +1,11 @@
 const express = require("express");
 
 const app = express();
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 
 const { celebrate, Joi, errors } = require("celebrate");
+const cors = require("cors");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 const { login, createUser } = require("./controllers/users");
 const auth = require("./middleware/auth");
@@ -21,10 +21,8 @@ const {
 
 app.use(express.static(path.join(__dirname, "/")));
 
-const cors = require("cors");
-
 app.use(cors());
-app.options("*", cors());
+app.options("/{*splat}", cors());
 
 const allowedCors = [
   "http://localhost:5173",
@@ -35,8 +33,6 @@ const allowedCors = [
 app.use(cors({ origin: allowedCors }));
 
 app.use(express.json());
-
-app.use(bodyParser.json());
 
 mongoose
   .connect(MONGO_URI)
